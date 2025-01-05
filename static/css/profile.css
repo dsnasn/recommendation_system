@@ -1,0 +1,216 @@
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 个人中心容器 */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* 头部用户信息 */
+.profile-header {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    flex-shrink: 0;
+}
+
+.avatar img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.8);
+    object-fit: cover;
+}
+
+.user-details {
+    margin-left: 15px;
+}
+
+.user-details h2 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.user-level {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    background: rgba(255,255,255,0.2);
+    padding: 3px 8px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+/* 用户统计 */
+.user-stats {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 15px 0;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item .number {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-item .label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* 菜单部分 */
+.menu-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.section-title {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+/* 订单类型 */
+.order-types {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.order-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    padding: 10px 0;
+}
+
+.order-type i {
+    font-size: 24px;
+    color: #FFA500;
+    margin-bottom: 8px;
+}
+
+.order-type span {
+    font-size: 0.9rem;
+}
+
+/* 服务网格 */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.service-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    padding: 12px 0;
+}
+
+.service-item i {
+    font-size: 24px;
+    color: #FFA500;
+    margin-bottom: 8px;
+}
+
+.service-item span {
+    font-size: 0.9rem;
+}
+
+/* 推荐列表 */
+.recommend-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.recommend-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    text-decoration: none;
+    color: #666;
+    border-bottom: 1px solid #eee;
+}
+
+.recommend-item:last-child {
+    border-bottom: none;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+}
+
+.item-info i {
+    font-size: 18px;
+    color: #FFA500;
+    margin-right: 10px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .service-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .order-types {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .order-types {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .profile-header {
+        padding: 15px;
+    }
+    
+    .avatar img {
+        width: 60px;
+        height: 60px;
+    }
+} 
