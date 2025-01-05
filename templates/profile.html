@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <div class="section-header">
+        <h2><i class="fas fa-user"></i> 个人中心</h2>
+    </div>
+    
+    <div class="order-history">
+        <h3>历史订单</h3>
+        {% if orders %}
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>菜品</th>
+                    <th>时间</th>
+                    <th>价格</th>
+                    <th>数量</th>
+                    <th>评分</th>
+                    <th>状态</th>
+                    <th>评论</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order['menu'] }}</td>
+                    <td>{{ order['order_time'] }}</td>
+                    <td>¥{{ order['price'] }}</td>
+                    <td>{{ order['quantity'] }}</td>
+                    <td>{{ order['user_rating'] if order['user_rating'] else 'N/A' }}</td>
+                    <td>{{ order['order_status'] }}</td>
+                    <td>{{ order['comment'] if order['comment'] else '无' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>暂无历史订单。</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %} 

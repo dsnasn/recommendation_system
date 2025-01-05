@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <div class="section-header">
+        <h2><i class="fas fa-chart-bar"></i> Admin Analytics Dashboard</h2>
+    </div>
+    
+    <!-- Popular Dishes: Sales and Ratings -->
+    <div class="analysis-section">
+        <div class="section-header">
+            <h3><i class="fas fa-utensils"></i> Popular Dishes: Sales and Ratings</h3>
+        </div>
+        <div class="chart-container">
+            <div id="hot-dishes-chart" class="chart"></div>
+        </div>
+    </div>
+    
+    <!-- User Order Trends -->
+    <div class="analysis-section">
+        <div class="section-header">
+            <h3><i class="fas fa-chart-line"></i> User Order Trends</h3>
+        </div>
+        <div class="chart-container">
+            <div id="order-trend-chart" class="chart"></div>
+        </div>
+    </div>
+    
+    <!-- Top Spenders -->
+    <div class="analysis-section">
+        <div class="section-header">
+            <h3><i class="fas fa-wallet"></i> Top Spenders (Top 10)</h3>
+        </div>
+        <div class="chart-container">
+            <div id="top-spenders-chart" class="chart"></div>
+        </div>
+    </div>
+    
+    <!-- Dish Sales -->
+    <div class="analysis-section">
+        <div class="section-header">
+            <h3><i class="fas fa-chart-bar"></i> Dish Sales</h3>
+        </div>
+        <div class="chart-container">
+            <div id="sales-chart" class="chart"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Include Plotly.js -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script>
+    // Check if data exists to avoid errors from missing data
+    var hotDishesData = {{ hot_dishes_data | tojson or '[]' }};
+    var orderTrendData = {{ order_trend_data | tojson or '[]' }};
+    var topSpendersData = {{ top_spenders_data | tojson or '[]' }};
+    var salesData = {{ sales_data | tojson or '[]' }};
+    
+    // Popular Dishes: Sales and Ratings Chart
+    if (hotDishesData.length > 0) {
+        var hotDishesMenus = hotDishesData.map(item => item.menu);
+        var hotDishesSales = hotDishesData.map(item => item.sales);
+        var hotDishesRatings = hotDishesData.map(item => item.avg_rating);
+
+        var salesTrace = {
+            x: hotDishesMenus,
+            y: hotDishesSales,
+            name: 'Sales',
+            type: 'bar',
+            marker: { color: '#FF7F50' }
+        };
+
+        var ratingsTrace = {
+            x: hotDishesMenus,
+            y: hotDishesRatings,
+            name: 'Average Rating',
+            type: 'line',
+            marker: { color: '#6A5ACD' }
+        };
+
+        Plotly.newPlot('hot-dishes-chart', [salesTrace, ratingsTrace], {
+            title: 'Popular Dishes: Sales and Ratings',
+            xaxis: { title: 'Dishes' },
+            yaxis: { title: 'Sales / Average Rating' }
+        });
+    } else {
+        document.getElementById('hot-dishes-chart').innerText = 'No data available';
+    }
+
+    // User Order Trends Chart
+    if (orderTrendData.length > 0) {
+        var orderMonths = orderTrendData.map(item => {
+            let date = new Date(item.month);
+            return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+        });
+        var orderCounts = orderTrendData.map(item => item.order_count);
+        var yoyChange = orderTrendData.map(item => item.yoy_change || 0); // Year-over-Year change
+        var momChange = orderTrendData.map(item => item.mom_change || 0); // Month-over-Month change
+
+        // Original Order Trends
+        var orderTrendTrace = {
+            x: orderMonths,
+            y: orderCounts,
+            name: 'Order Count',
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: { color: '#3CB371' }
+        };
+
+        // Year-over-Year Change
+        var yoyChangeTrace = {
+            x: orderMonths,
+            y: yoyChange,
+            name: 'YoY Change (%)',
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: { color: '#1E90FF' }
+        };
+
+        // Month-over-Month Change
+        var momChangeTrace = {
+            x: orderMonths,
+            y: momChange,
+            name: 'MoM Change (%)',
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: { color: '#FFA500' }
+        };
+
+        // Plot the chart
+        Plotly.newPlot('order-trend-chart', [orderTrendTrace, yoyChangeTrace, momChangeTrace], {
+            title: 'User Order Trends with YoY/MoM Changes',
+            xaxis: {
+                title: 'Months',
+                tickangle: -45
+            },
+            yaxis: { 
+                title: 'Orders / Changes (%)',
+                range: [-100, 100]
+            },
+            legend: {
+                orientation: 'h',
+                x: 0.5,
+                xanchor: 'center',
+                y: -0.3,
+                font: { size: 12, color: '#333' }
+            },
+            margin: {
+                b: 80
+            }
+        });
+    } else {
+        document.getElementById('order-trend-chart').innerText = 'No data available';
+    }
+
+    // Top Spenders Chart
+    if (topSpendersData.length > 0) {
+        var spenders = topSpendersData.map(item => item.user_id);
+        var totalSpent = topSpendersData.map(item => item.total_spent);
+
+        var spendersTrace = {
+            x: spenders,
+            y: totalSpent,
+            type: 'bar',
+            marker: { color: '#800080' }
+        };
+
+        Plotly.newPlot('top-spenders-chart', [spendersTrace], {
+            title: 'Top Spenders (Top 10)',
+            xaxis: { title: 'User ID', type: 'category' },
+            yaxis: { title: 'Total Spent' }
+        });
+    } else {
+        document.getElementById('top-spenders-chart').innerText = 'No data available';
+    }
+
+    // Dish Sales Chart
+    if (salesData.length > 0) {
+        var salesMenus = salesData.map(item => item.menu);
+        var totalSales = salesData.map(item => item.total_sales);
+
+        var salesTrace = {
+            x: salesMenus,
+            y: totalSales,
+            type: 'bar',
+            marker: { color: '#3CB371' }
+        };
+        Plotly.newPlot('sales-chart', [salesTrace], { title: 'Dish Sales' });
+    } else {
+        document.getElementById('sales-chart').innerText = 'No data available';
+    }
+</script>
+
+<style>
+    .analysis-section {
+        margin-bottom: 40px;
+    }
+    .chart-container {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .chart {
+        width: 100%;
+        height: 400px;
+    }
+    .section-header h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+</style>
+{% endblock %}

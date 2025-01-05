@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <div class="dish-detail">
+        <div class="dish-image-large">
+            <img src="{{ url_for('static', filename='images/products/' + dish['menu'] + '.jpg') }}" 
+                 alt="{{ dish['menu'] }}"
+                 onerror="this.src='{{ url_for('static', filename='images/default-dish.jpg') }}'">
+        </div>
+        <div class="dish-info-large">
+            <h1>{{ dish['menu'] }}</h1>
+            <p class="price">价格: ¥{{ dish['avgPrice'] }}</p>
+            <p class="rating">
+                <i class="fas fa-star"></i> {{ avg_rating }}
+            </p>
+        </div>
+    </div>
+
+    <div class="reviews-section">
+        <h2>用户评价</h2>
+        {% for review in reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <span class="user-name">{{ review['user_name'] }}</span>
+                <span class="rating">
+                    <i class="fas fa-star"></i> {{ review['star'] }}
+                </span>
+            </div>
+            <p class="review-content">{{ review['comment'] }}</p>
+            <div class="review-footer">
+                <span class="review-time">{{ review['comment_time'] }}</span>
+                <span class="like-count">
+                    <i class="fas fa-thumbs-up"></i> {{ review['like_count'] }}
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

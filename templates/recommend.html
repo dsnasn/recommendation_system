@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <div class="section-header">
+        <h2><i class="fas fa-star"></i> 个性化推荐</h2>
+    </div>
+    
+    {% if recommendations %}
+    <div class="dish-grid">
+        {% for recommendation in recommendations %}
+        <div class="dish-card">
+            <div class="dish-image">
+                <img src="{{ url_for('static', filename='images/products/' + recommendation['menu'] + '.jpg') }}" 
+                     alt="{{ recommendation['menu'] }}"
+                     onerror='this.src="{{ url_for("static", filename="images/default-dish.jpg") }}"'>
+                <div class="dish-price">¥{{ recommendation['avgPrice'] }}</div>
+            </div>
+            <div class="dish-info">
+                <h3>{{ recommendation['menu'] }}</h3>
+                <div class="recommendation-score">
+                    推荐分数: {{ "%.1f"|format(recommendation['score']) }}
+                </div>
+                <a href="{{ url_for('detail', menu=recommendation['menu']) }}" class="view-detail">
+                    查看详情 <i class="fas fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-recommendations">
+        <p>暂无推荐</p>
+        <a href="{{ url_for('index') }}" class="btn-primary">返回首页</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

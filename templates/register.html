@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <div class="login-container">
+        <h2>注册</h2>
+        <form method="POST" action="{{ url_for('register') }}" novalidate>
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn-primary">注册</button>
+        </form>
+        <p class="mt-3">已有账号？<a href="{{ url_for('login') }}">登录</a></p>
+    </div>
+</section>
+
+<!-- 添加调试信息 -->
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    console.log('Form submitted');  // 调试信息
+});
+</script>
+{% endblock %} 

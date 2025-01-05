@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <div class="section-header">
+        <h2><i class="fas fa-search"></i> 搜索结果</h2>
+        <p class="search-info">关键词: "{{ query }}"</p>
+    </div>
+
+    <!-- 历史搜索 -->
+    {% if search_history %}
+    <div class="history-section" style="margin-bottom: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
+        <h3 style="margin-bottom: 15px;"><i class="fas fa-history"></i> 历史搜索</h3>
+        <div class="history-grid" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: flex-start;">
+            {% for item in search_history %}
+            <div class="history-item" style="background-color: #fff; padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px;">
+                <a href="{{ url_for('search', query=item) }}" style="text-decoration: none; color: #007bff; font-weight: bold;">
+                    {{ item }}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+
+    <!-- 搜索结果 -->
+    {% if results %}
+    <div class="dish-grid">
+        {% for result in results %}
+        <div class="dish-card">
+            <div class="dish-image">
+                <img src="{{ url_for('static', filename='images/products/' + result['menu'] + '.jpg') }}" 
+                     alt="{{ result['menu'] }}"
+                     onerror='this.src="{{ url_for("static", filename="images/default-dish.jpg") }}"'>
+                <div class="dish-price">¥{{ result['avgPrice'] }}</div>
+            </div>
+            <div class="dish-info">
+                <h3>{{ result['menu'] }}</h3>
+                <div class="similarity-score">
+                    相似度: {{ "%.1f"|format(result['similarity'] * 100) }}%
+                </div>
+                <a href="{{ url_for('detail', menu=result['menu']) }}" class="view-detail">
+                    查看详情 <i class="fas fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-results">
+        <p>未找到相关结果</p>
+        <a href="{{ url_for('index') }}" class="btn-primary">返回首页</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

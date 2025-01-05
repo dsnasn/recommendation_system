@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <div class="section-header">
+        <h2><i class="fas fa-fire"></i> 热门榜单</h2>
+    </div>
+    
+    <div class="dish-grid">
+        {% for dish in hot_items %}
+        <div class="dish-card">
+            <div class="dish-image">
+                <img src="{{ url_for('static', filename='images/products/' + dish['menu'] + '.jpg') }}" 
+                     alt="{{ dish['menu'] }}"
+                     onerror='this.src="{{ url_for("static", filename="images/default-dish.jpg") }}"'>
+                <div class="dish-price">¥{{ dish['avgPrice'] }}</div>
+                <div class="hot-rank">热度 #{{ loop.index }}</div>
+            </div>
+            <div class="dish-info">
+                <h3>{{ dish['menu'] }}</h3>
+                <div class="dish-stats">
+                    <span class="rating">
+                        <i class="fas fa-star"></i> {{ "%.1f"|format(dish['avg_star']) }}
+                    </span>
+                    <span class="review-count">
+                        <i class="fas fa-comment"></i> {{ dish['review_count'] }}
+                    </span>
+                </div>
+                <a href="{{ url_for('detail', menu=dish['menu']) }}" class="view-detail">
+                    查看详情 <i class="fas fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %} 
