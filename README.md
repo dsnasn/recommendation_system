@@ -37,24 +37,41 @@ Visit http://127.0.0.1:5000 to start exploring.
 
 ---
 
-## 🎥 Screenshots and Demo
+## 🎥 Key Demonstrations
 
-### 🔍 Search and Recommendations
-- **Smart Search Results**:  
-  ![Search Demo](path/to/search_demo.gif)
+Explore the core functionalities of the system through these dynamic visualizations:
 
-- **Personalized Recommendations**:  
-  ![Recommendations Page](path/to/recommendations_screenshot.png)
+---
 
-### 📊 Data Analytics Dashboard
-- **Order Trends Visualization**:  
-  ![Order Trends](path/to/order_trends_chart.png)
+### 🧠 **Dynamic Personalized Recommendations**
+- Recommendations dynamically adapt to **user search behavior** in real time.  
+- Observe how repeated searches for "pizza" gradually shift recommendations from spicy dishes to pizza-related options, with **increasing recommendation scores** as search frequency rises.
 
-- **Top Spenders Analysis**:  
-  ![Top Spenders](path/to/top_spenders_chart.png)
+![Personalized Recommendations](Visualization_Results/Personalized-Recommendations.gif)
 
-- **Admin Dashboard Overview**:  
-  ![Admin Dashboard](path/to/admin_dashboard.png)
+---
+
+### 🔍 **Intelligent Search Optimization**
+- Supports **fuzzy matching** for typos and **synonym expansion**.
+- Dynamically loads **search history** for quick redirection to relevant results.
+
+![Search Function](Visualization_Results/search-function.gif)
+
+---
+
+### 📊 **Admin Analytics Dashboard**
+- Visualize **order trends**, **top dishes**, and **high-spending users**.
+- Gain actionable insights with interactive charts powered by Plotly.
+
+![Admin Dashboard](Visualization_Results/dashboard.gif)
+
+---
+
+### ❄️ **Global Recommendations for Cold-Start Users**
+- Handles the **cold-start problem** by displaying globally popular dishes for new users.
+- Seamlessly transitions to **personalized recommendations** as user data grows.
+
+![Cold Start Recommendations](Visualization_Results/cold-start.gif)
 
 ---
 
