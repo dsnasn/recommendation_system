@@ -142,7 +142,4 @@ The most popular dishes were identified using a weighted analysis of sales volum
 - **Framework**: Flask
 - **Database**: SQLite
 - **Libraries**: Pandas, Matplotlib, FuzzyWuzzy (RapidFuzz)
-- **Algorithms**: Collaborative filtering, text similarity scoring
-
----
 
